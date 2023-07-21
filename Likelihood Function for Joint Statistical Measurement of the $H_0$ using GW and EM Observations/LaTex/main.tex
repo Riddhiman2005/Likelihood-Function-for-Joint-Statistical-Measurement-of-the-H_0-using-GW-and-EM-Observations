@@ -1,0 +1,374 @@
+\documentclass[modern]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{acronym}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[backend=biber,style=numeric]{biblatex}
+\addbibresource{Biblio.bib}
+
+\acrodef{EM}{electromagnetic}
+\acrodef{GW}{gravitational wave}
+
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\dEM}{d_{\mathrm{EM}}}
+\newcommand{\diff}[2]{\frac{\dd #1}{\dd #2}}
+\newcommand{\dGW}{d_{\mathrm{GW}}}
+\newcommand{\Ngal}{N_{\mathrm{gal}}}
+\newcommand{\OGW}{\Omega_{\mathrm{GW}}}
+\newcommand{\Pdet}{P_{\mathrm{det}}}
+\newcommand{\thetaEM}{\theta_{\mathrm{EM}}}
+\newcommand{\thetaGW}{\theta_{\mathrm{GW}}}
+
+
+
+\title{\huge \textbf{Likelihood Function for Joint Statistical Measurement of the $H_0$ using GW and EM Observations}}
+\vspace{2cm}
+\author{\Large Riddhiman Bhattacharya}
+\date{}
+
+
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This paper presents a methodology for measuring the Hubble constant ($H_0$) using joint observations of gravitational wave (GW) events and electromagnetic (EM) data from galaxy surveys. The likelihood function is defined for both the GW and EM datasets, which include parameters such as luminosity distance, sky positions, and redshifts. The joint likelihood is obtained by taking the product of individual likelihoods since the data generation processes are independent for each instrument. The methodology accounts for the uncertainty in host galaxy identification for the GW event by marginalizing the choice of the galaxy with appropriate weights. The authors discuss practical considerations, such as selection effects and assumptions for the EM data, and present methods to handle cases with complete or incomplete galaxy catalogs. The methodology allows for constraining $H_0$ based on joint GW and EM observations and is adaptable to various survey scenarios
+\end{abstract}
+
+
+
+
+
+\section{Likelihood}
+
+We are dealing with two distinct data sets: the \ac{GW} set $\dGW$, which corresponds to a single detected \ac{GW} event, and the \ac{EM} data set $\dEM$, which represents a survey of galaxies that overlaps in the sky with the inferred position of the \ac{GW} event. The likelihood function characterizes the generation of the \ac{GW} data given the \ac{GW} parameters $\theta_{\text{GW}}$, including parameters such as masses, spins, etc. It can be denoted as:
+\begin{equation}
+\mathcal{L}\left( \theta_{\text{GW}} \right) \equiv p\left( \dGW \mid \theta_{\text{GW}} \right).
+\end{equation}
+%
+Importantly, the joint likelihood involves the luminosity distance to the event ($d_L$) and the position of the event on the sky ($\Omega_{\text{GW}}$) as part of the \ac{GW} parameters. Similarly, the \ac{EM} likelihood represents the generation of survey data given the parameters for the galaxies:
+\begin{equation}
+    \mathcal{L} \left( \theta_{\text{EM}} \right) \equiv p\left( \dEM \mid \theta_{\text{EM}} \right).
+\end{equation}
+The \ac{EM} survey parameters consist of the redshifts of the galaxies $\left\{ z_i \mid i = 1, \ldots, \Ngal \right\}$ and their positions on the sky $\left\{ \Omega_i \mid i = 1, \ldots, \Ngal \right\}$.
+
+The joint likelihood for the two sets of observations is simply the product of the individual likelihoods. This is because the data-generating processes in each instrument are independent of each other:
+%
+\begin{equation}
+    p\left( \dGW, \dEM \mid \thetaGW, \thetaEM \right) =  p\left( \dGW \mid \thetaGW \right) p\left( \dEM \mid \thetaEM \right).
+\end{equation}
+%
+To measure the Hubble constant, we won't consider the masses, spins, etc., of the gravitational wave (GW) source, nor will we take into account any electromagnetic (EM) data other than the redshifts and sky positions. Therefore, we will apply some standard priors and eliminate these variables from the analysis. This results in a "marginal" likelihood for each observation, which is expressed in terms of the luminosity distance, sky positions, and redshifts \cite{Abbott2016Rate}:
+%
+\begin{multline}
+    p\left( \dGW \mid d_L, \OGW \right) p\left( \dEM \mid \left\{ z_i, \Omega_i \mid i = 1, \ldots, \Ngal \right\} \right) = \\ \int \dd \bar{\theta}_{\mathrm{GW}} \, \dd \bar{\theta}_{\mathrm{EM}} \, p\left( \bar{\theta}_{\mathrm{GW}} \right) p\left( \bar{\theta}_{\mathrm{EM}} \right) p\left( \dGW \mid \thetaGW \right) p\left( \dEM \mid \thetaEM \right)
+\end{multline}
+%
+where the ``bar'' indicates the set of ignorable parameters and $p\left(
+\bar{\theta}_{\mathrm{GW}} \right)$ and $p\left( \bar{\theta}_{\mathrm{EM}}
+\right)$ are the priors we impose on these parameters.
+
+Now let us impose the constraint that one of the galaxies in the survey must
+have hosted the \ac{GW} event; suppose that we weight the choice of hosts by a
+set of weights $\left\{ w_i \mid i = 1, \ldots, \Ngal \right\}$.  This
+constraint will tie together both pairs $\OGW$ and $\Omega_i$ and $d_L$ and
+$z_i$; the relation between $d_L$ and $z_i$ depends on $H_0$ (and other
+cosmological parameters).  We can use these relationships to marginalize over
+(i.e.\ eliminate) $d_L$ and $\OGW$ from the likelihood, obtaining for a single
+galaxy host, $i$
+%
+%\begin{multline}
+%    p\left( \dGW, \dEM \mid i, z_i, \Omega_i, H_0 \right) \equiv \\ \int \dd d_L \, \dd \OGW \, p\left( \dGW \mid d_L, \OGW \right) p\left( \dEM \mid \left\{ z_i, \Omega_i \mid i = 1, \ldots, \Ngal \right\} \right)  \\ \times \delta\left( d_L - d_L\left( z_i, H_0 \right) \right) \delta \left( \OGW - \Omega_i \right).
+%\end{multline}
+%
+%
+\begin{multline}
+    p\left( \dGW \mid i, z_i, \Omega_i, H_0 \right) \equiv \\ \int \dd d_L \, \dd \OGW \, p\left( \dGW \mid d_L, \OGW \right)  \delta\left( d_L - d_L\left( z_i, H_0 \right) \right) \delta \left( \OGW - \Omega_i \right).
+\end{multline}
+%
+The integrals are trivial\cite{Chen2017}, leaving
+%
+%\begin{multline}
+%    p\left( \dGW, \dEM \mid i, z_i, \Omega_i, H_0 \right) = \\ p\left( \dGW \mid d_L\left( z_i, H_0 \right), \Omega_i \right) p\left( \dEM \mid \left\{ z_i, \Omega_i \mid i = 1, \ldots, \Ngal \right\} \right).
+%\end{multline}
+\begin{equation}
+    p\left( \dGW \mid i, z_i, \Omega_i, H_0 \right) = p\left( \dGW \mid d_L\left( z_i, H_0 \right), \Omega_i \right).
+\end{equation}
+
+In the absence of other information, we do not know which galaxy hosted the
+\ac{GW} event, so we should marginalize over the choice of galaxy, $i$, with the
+correct weights:
+%
+%\begin{multline}
+%    p\left( \dGW, \dEM \mid \left\{ z_i, \Omega_i \mid i = 1, \ldots, \Ngal \right\}, H_0 \right) = \\ \sum_{i = 1}^{\Ngal} w_i  p\left( \dGW \mid d_L\left( z_i, H_0 \right), \Omega_i \right) p\left( \dEM \mid \left\{ z_i, \Omega_i \mid i = 1, \ldots, \Ngal \right\} \right).
+%\end{multline}
+\begin{multline}
+    p\left( \dGW \mid \left\{ z_i, \Omega_i \mid i = 1, \ldots, \Ngal \right\}, H_0 \right) = \sum_{i = 1}^{\Ngal} w_i  p\left( \dGW \mid d_L\left( z_i, H_0 \right), \Omega_i \right).
+\end{multline}
+
+Note that this is just the GW part of the likelihood, and it depends on the true redshifts and sky locations of the host galaxies. The galaxy redshifts and sky positions are nuisance parameters in an inference of $H_0$ so we should marginalize over them with a suitable choice of
+prior, but first we must specify the EM likelihood since this also depends on those parameters. We assume that the EM data consists of independent measurements for each galaxy in the catalogue, with perfect sky location determination and imperfect redshift determination, i.e.,
+\begin{multline}
+p\left( \dEM \mid \left\{ z_i, \Omega_i \mid i = 1, \ldots, \Ngal \right\} \right) = \prod_{j=1}^{\Ngal} \delta(\Omega_{j,obs}-\Omega_j) p(z_{j,obs} | z_j, \Omega_j)
+\end{multline}
+in which we have now replaced $\dEM$ by individual estimated sky locations, $\Omega_{i,obs}$, and redshifts, $z_{i,obs}$, for each galaxy $i$. To marginalise the true redshift and sky location out of the likelihood we need to specify a prior on these parameters. A natural prior would be to assume that galaxies are uniformly distributed in comoving volume and on the sky, so
+%
+\begin{equation}
+    p\left( z_i, \Omega_i \right) \dd z_i \, \dd \Omega_i = \frac{1}{4\pi V_\mathrm{max}} \diff{V}{z_i} \, \dd z_i \, \dd \Omega_i
+\end{equation}
+%
+where $V_\mathrm{max}$ is some suitably large comoving volume that encompasses
+all galaxies in the survey.  At sufficiently small redshifts, $p\left( z_i
+\right) \propto z_i^2$.  Note that at \emph{all} redshifts, $p\left( z_i
+\right)$ is independent of $H_0$.
+
+The above prior is needed for each galaxy and the combined prior for all galaxies is therefore $\prod_j p(z_j, \Omega_j)$. Finally, we arrive at the marginal likelihood for $H_0$ given the joint observations:
+%
+\begin{multline}
+    p\left( \dGW, \dEM \mid H_0 \right) = \sum_{i=1}^{\Ngal} w_i \prod_j \int \dd z_j \, \dd \Omega_j \, p\left( z_j, \Omega_j \right) p\left( \dGW \mid d_L\left( z_i, H_0 \right), \Omega_i \right) \\ \times \delta(\Omega_{j,obs}-\Omega_j) p(z_{j,obs} | z_j, \Omega_j) \\
+    = \sum_{i=1}^{\Ngal} w_i \prod_j \int \dd z_j \, p\left( z_j, \Omega_{j,obs} \right) p\left( \dGW \mid d_L\left( z_i, H_0 \right), \Omega_{i,obs} \right) \\ \times p(z_{j,obs} | z_j, \Omega_{j,obs}) .
+\end{multline}
+The GW data term depends only on the galaxy $i$ appearing in the sum. Therefore, most of the integrals can be evaluated directly. We introduce the evidences
+\begin{equation}
+{\cal Z}_j = \int p(z_{j,obs} | z, \Omega_{j,obs}) p\left( z, \Omega_{j,obs} \right) dz
+\end{equation}
+and then the previous expression reduces to
+\begin{multline}
+    \label{eq:H0-marginal-likelihood}
+    p\left( \dGW, \dEM \mid H_0 \right) \propto  \sum_{i=1}^{\Ngal} w_i  \int \dd z \, \frac{p\left( z, \Omega_{i,obs} \right) p(z_{i,obs} | z, \Omega_{i,obs}) } {{\cal Z}_i} \\ \times p\left( \dGW \mid d_L\left( z, H_0 \right), \Omega_{i,obs} \right).
+\end{multline}
+The first term inside the integral is the posterior on the true redshift of galaxy $i$ based on the EM data and so this can be interpreted as using the EM data as a prior on the possible redshifts of the host of the GW source.
+
+\subsection{Selection Effects}
+
+So far, we have been ignoring selection effects.  Selection effects can be
+modeled by including a factor, $\beta\left( H_0 \right)$ ensuring that the
+marginal likelihood integrates to one over all \emph{detectable} data sets
+\cite{Mandel2018}.  In other words, we write
+%
+\begin{multline}
+    p\left( \dGW, \dEM \mid H_0 \right) = \frac{1}{\beta\left( H_0 \right)} \sum_{i=1}^{\Ngal} w_i \int \dd z_i \, \dd \Omega_i \, p\left( z_i, \Omega_i \right) p\left( \dGW \mid d_L\left( z_i, H_0 \right), \Omega_i \right) \\ \times p\left( \dEM \mid \left\{ z_i, \Omega_i \mid i = 1, \ldots, \Ngal \right\} \right)
+\end{multline}
+%
+such that
+\begin{equation}
+    \int \dd \dGW \, \dd \dEM \, \Pdet\left( \dGW \right) \Pdet\left( \dEM \right) p\left( \dGW, \dEM \mid H_0 \right) = 1,
+\end{equation}
+%
+where $\Pdet\left(d\right)$ refers to the probability that a particular data set
+$d$ will result in a ``detection'' of a \ac{GW} (typically, $\Pdet$ is either 0
+or 1, depending on the output of a pipeline applied to the data; it serves to
+truncate the integral to detectable data sets only).  Thus,
+%
+\begin{multline}
+    \label{eq:beta-H0-full-def}
+    \beta\left( H_0 \right) =  \int \dd \dGW \, \dd \dEM \, \Pdet\left( \dGW \right) \Pdet\left( \dEM \right) \\ \times \sum_{i=1}^{\Ngal} w_i \int \dd z_i \, \dd \Omega_i \, p\left( z_i, \Omega_i \right) p\left( \dGW \mid d_L\left( z_i, H_0 \right), \Omega_i \right) \\ \times p\left( \dEM \mid \left\{ z_i, \Omega_i \mid i = 1, \ldots, \Ngal \right\} \right).
+\end{multline}
+%
+Note that the issue of selection effects has nothing to do with how
+``detectable'' the observed events are (by definition, in the absence of a
+stochastic detection pipeline, $\Pdet\left( d_{\mathrm{GW},\mathrm{observed}}
+\right) \equiv 1$), but rather how the detectability of the \emph{population} of
+\ac{GW} events varies with $H_0$.
+
+Current catalogs are complete (i.e.\ $\Pdet\left( \dEM \right) = 1$) for any
+\ac{GW} detection assuming reasonable values of $H_0$.  In this document we
+assume that the galaxy catalog is selected from a flux-limited survey, so (to
+sufficient approximation) it is complete to some $d_{L, \mathrm{max}}$; this
+corresponds to a $z_{\mathrm{max}}\left( d_{L,\mathrm{max}}, H_0 \right)$ that
+depends on $H_0$.  An alternative perspective is to assume that the catalogs are
+complete to some redshift $z_\mathrm{max}$ in which case
+$d_{L,\mathrm{max}}\left( z_\mathrm{max}, H_0 \right)$ depends on $H_0$.  Final
+expressions for the likelihood are identical between these two approaches, but
+intermediate expressions differ in some places, as I note below.
+
+Performing the integral over $\dEM$ (remember that the \ac{EM} likelihood is
+normalised), we obtain
+%
+\begin{multline}
+    \beta\left( H_0 \right) =  \int \dd \dGW \, \Pdet\left( \dGW \right) \\ \times \sum_{i=1}^{\Ngal} w_i \int \dd z_i \, \dd \Omega_i \, p\left( z_i, \Omega_i \right) p\left( \dGW \mid d_L\left( z_i, H_0 \right), \Omega_i \right).
+\end{multline}
+%
+The integrals in each term of the sum are now all identical (only the \ac{EM}
+data distinguishes the different galaxies) and the sum over weights is
+normalized, so we are left with
+%
+\begin{equation}
+     \beta\left( H_0 \right) =  \int \dd \dGW \, \dd z \, \dd \Omega \, \Pdet\left( \dGW \right)  p\left( z, \Omega \right) p\left( \dGW \mid d_L\left( z, H_0 \right), \Omega \right).
+\end{equation}
+%
+We can change variables from $z$ to $d_L$ in the integral, and integrate up to
+the $\ac{GW}$ horizon, $d_{L,\mathrm{max},\mathrm{GW}}$, where $\Pdet\left( \dGW
+\right) \to 0$, obtaining
+%
+\begin{equation}
+    \beta\left( H_0 \right) =  \int \dd \dGW \, \dd d_L \, \dd \Omega \, \Pdet\left( \dGW \right)  p\left( d_L, \Omega \right) p\left( \dGW \mid d_L, \Omega \right) = \frac{V \left( d_{L,\mathrm{max},\mathrm{GW}} \right)}{V\left( d_{L,\mathrm{max}} \right)}
+\end{equation}
+%
+But this latter integral is independent of $H_0$ for Euclidean universes, and
+weakly dependent at larger distances under our assumption that the catalog is
+complete to some fixed $d_{L, \mathrm{max}}$, so $\beta\left( H_0 \right) \simeq
+\mathrm{const}$; had we assumed instead a maximum redshift for completeness,
+then $d_{L, \mathrm{max}}$ depends on $H_0$ and $\beta\left( H_0 \right) \propto
+H_0^3$ as in \cite{Fishbach2018}.
+
+Eventually, \ac{EM} catalogs will not be complete for all \ac{GW} events.  If
+only the set of \ac{GW} events for which the \ac{EM} catalog is complete is used
+to estimate $H_0$ then $\beta\left( H_0 \right)$ can be computed by returning to
+Eq.\ \eqref{eq:beta-H0-full-def}.  Alternately, the full set of \ac{GW} events
+can be used, and a fictitious catalog members can be added with weights
+corresponding to the incompleteness fraction at various redshifts and in
+different directions; the limit of this procedure yields the formulas in
+\cite{Fishbach2018} for incomplete catalogs.
+
+\section{Practical Considerations}
+
+Evaluating Eq.\ \eqref{eq:H0-marginal-likelihood} requires the ability to
+compute the \ac{GW} marginal likelihood at arbitrary $d_L$ and $\Omega$.
+Happily, a standard data product provided by LIGO \cite{Singer2016} can be
+adapted to produce a function that approximates the marginal \ac{GW} likelihood
+at fixed locations on the sky corresponding to HEALPix pixels
+\cite{Gorski2005}.  The method in \cite{Singer2016} fits the \emph{posterior}
+over distance and sky position from a LIGO analysis using a per-pixel ansatz
+where
+%
+\begin{equation}
+    \label{eq:gtd-ansatz}
+    p\left( d_L, \Omega \mid \dGW \right) = \frac{\rho_i}{A} \frac{N_i}{\sqrt{2\pi} \sigma_i} \exp\left[ -\frac{1}{2} \left(\frac{d_L-\mu_i}{\sigma_i}\right)^2 \right] d_L^2,
+\end{equation}
+%
+with $\Omega$ in HEALPix pixel $i$; $N_i$, $\rho_i$, $\mu_i$, and $\sigma_i$
+per-pixel fitting parameters; and $A$ the area of the pixel.  Since the standard
+LIGO distance prior is proportional to $d_L^2$, this means that the \ac{GW}
+marginal likelihood when $\Omega$ is in pixel $i$ is (up to ignorable constants)
+%
+\begin{equation}
+    p\left( \dGW \mid d_L, \Omega \right) \propto \frac{\rho_i}{A} \frac{N_i}{\sqrt{2\pi} \sigma_i} \exp\left[ -\frac{1}{2} \left(\frac{d_L-\mu_i}{\sigma_i}\right)^2 \right].
+\end{equation}
+%
+(Note the missing factor of $d_L^2$ relative to Eq.\ \eqref{eq:gtd-ansatz}.)
+
+If we are in the linear regime, where
+%
+\begin{equation}
+    d_L = \frac{c z}{H_0}
+\end{equation}
+%
+to sufficient accuracy, the \ac{EM} likelihood is Gaussian in the redshift,
+%
+\begin{equation}
+    p\left( \dEM \mid z_i, \Omega_i \right) \propto \frac{1}{\sqrt{2\pi} \sigma_{z,i}} \exp\left[ -\frac{1}{2} \left( \frac{z_i - z_{i,\mathrm{obs}}}{\sigma_{i,z}} \right)^2 \right],
+\end{equation}
+%
+and we assume that the \ac{EM} data determines the sky position of each galaxy
+precisely, then the marginalization integrals over redshift and sky position in
+Eq.\ \eqref{eq:H0-marginal-likelihood} can be performed analytically, as we now
+show. The evidence integral, assuming a $p\left( z_i \right) \propto z_i^2$
+prior becomes
+%
+\begin{equation}
+  \mathcal{Z}_i = \int \dd z_i \, z_i^2 \frac{1}{\sqrt{2\pi} \sigma_{z,i}} \exp\left[ -\frac{1}{2} \left( \frac{z_i - z_{i,\mathrm{obs}}}{\sigma_{i,z}} \right)^2 \right] = \sigma_{i,z}^2 + z_{i,\mathrm{obs}}^2.
+\end{equation}
+%
+The result, when galaxy $i$ lies inside pixel $k_i$, is
+%
+\begin{multline}
+     p\left( \dGW \mid \dEM, H_0 \right) = \\ \frac{3 H_0^3}{z_\mathrm{max}^3} \sum_{i=1}^{\Ngal} \frac{w_i \rho_{k_i} N_{k_i}}{A \sqrt{2\pi} \Sigma \mathcal{Z}_i} \exp\left[ -\frac{\left(H_0 \mu_{k_i} - c z_{i,\mathrm{obs}}\right)^2}{2 \Sigma^2} \right] \\ \times \left( \frac{\sigma_{k_i}^2 \sigma_{i,z}^2}{\Sigma^2} + \frac{\left( c \mu_{k_i} \sigma_{i,z}^2 + H_0 \sigma_{k_i}^2 z_{i,\mathrm{obs}} \right)^2}{\Sigma^4} \right),
+\end{multline}
+%
+with
+%
+\begin{equation}
+    \Sigma^2 = H_0^2 \sigma_{k_i}^2 + c^2 \sigma_{i,z}^2.
+\end{equation}
+%
+We are assuming that the galaxy catalog is complete to some $d_{L,
+\mathrm{max}}$, so the factor $H_0/z_\mathrm{max}$ is independent of $H_0$ and
+equal to $c/d_\mathrm{max}$:
+%
+\begin{multline}
+  p\left( \dGW \mid \dEM, H_0\right) = \\ \frac{3 c^3}{d_{L,\mathrm{max}}^3} \sum_{i=1}^{\Ngal} \frac{w_i \rho_{k_i} N_{k_i}}{A \sqrt{2\pi} \Sigma \mathcal{Z}_i} \exp\left[ -\frac{\left(H_0 \mu_{k_i} - c z_{i,\mathrm{obs}}\right)^2}{2 \Sigma^2} \right] \\ \times \left( \frac{\sigma_{k_i}^2 \sigma_{i,z}^2}{\Sigma^2} + \frac{\left( c \mu_{k_i} \sigma_{i,z}^2 + H_0 \sigma_{k_i}^2 z_{i,\mathrm{obs}} \right)^2}{\Sigma^4} \right).
+\end{multline}
+%
+If, alternately, we had assumed that the catalog is complete to some
+$z_\mathrm{max}$ then $\beta\left( H_0 \right) \propto H_0^3$ and this factor
+would cancel the $H_0^3$ in the numerator, again leading to a likelihood that
+lacks a pre-factor dependent on $H_0$.  Both approaches agree on the likelihood
+\emph{when the selection effects are dominated by the \ac{GW} horizon}.
+
+It is reasonable to truncate the sum above by ignoring galaxies for which
+$\rho_{k_i}$ (the integrated per-pixel \ac{GW} posterior probability) is
+sufficiently small.
+
+\subsection{The Uninformative Limit}
+
+In the limit where the individual redshift measurements are too uncertain to
+meaningfully constrain $H_0$, the measurement should be uninformative.  In this
+limit
+%
+\begin{equation}
+  H_0^2 \sigma_{k_i}^2 \ll c^2 \sigma_{z,i}^2 \to \infty
+\end{equation}
+%
+in the relevant pixels.  Since the $c^2 \sigma_{i,z}^2$ term dominates $\Sigma$
+and also eliminates the exponential, the likelihood function for $H_0$ becomes
+constant and the measurement is uninformative about $H_0$.
+
+\subsection{The Maximally Informative Limit}
+
+Suppose there is only a single galaxy in the entire sky area (maybe our sky area
+is very small, or maybe we have an \ac{EM} counterpart that eliminates all the
+galaxies in the catalog but one).  Then the sum collapses to one term, and the
+pixel-dependent parts become ignorable constants, so
+%
+\begin{multline}
+  p\left( \dGW \mid \dEM, H_0 \right) \propto \frac{1}{\sqrt{2\pi} \Sigma \mathcal{Z}_i} \exp\left[ -\frac{\left(H_0 \mu_{k_i} - c z_{i,\mathrm{obs}}\right)^2}{2 \Sigma^2} \right] \\ \times \left( \frac{\sigma_{k_i}^2 \sigma_{i,z}^2}{\Sigma^2} + \frac{\left( c \mu_{k_i} \sigma_{i,z}^2 + H_0 \sigma_{k_i}^2 z_{i,\mathrm{obs}} \right)^2}{\Sigma^4} \right).
+\end{multline}
+%
+If we now imagine that $c \sigma_{i,z} \ll H_0 \sigma_{k_i}$ for all reasonable
+values of $H_0$ and that $\sigma_{i,z} \ll z_{i,\mathrm{obs}}$, then we do not
+distinguish any more between $z_{i,\mathrm{obs}}$ and $z_i$ and the likelihood
+becomes
+%
+\begin{equation}
+  p\left( \dGW \mid \dEM, H_0 \right) \propto \frac{1}{\sqrt{2\pi} H_0 \sigma_{k_i}} \exp\left[ -\frac{\left(H_0 \mu_{k_i} - c z_{i}\right)^2}{2 H_0^2 \sigma_{k_i}^2} \right] \left( \frac{1}{H_0^2} \right).
+\end{equation}
+%
+If the \ac{GW} measurement becomes infinitely precise as well, then
+$\sigma_{k_i} \to 0$, and the likelihood becomes
+%
+\begin{equation}
+  p\left( \dGW \mid \dEM, H_0 \right) \propto \delta \left( H_0 \mu_{k_i} - c z_{i}\right) \left( \frac{1}{H_0^3} \right),
+\end{equation}
+%
+which selects $H_0 = c z_i / \mu_{k_i}$ as expected.
+
+\subsection{The Many Galaxies Limit}
+
+Suppose there are so many galaxies within the \ac{GW} region on the sky that we
+can treat them as being continuously distributed with density $p\left( z \right)
+\propto z^2$.  To make the expressions tractable, suppose the measurement
+uncertainty on redshift is small, $\sigma_{i,z} \to 0$ and that the \ac{GW}
+source is localized to a single pixel $k$.  Then the \ac{GW} likelihood becomes
+%
+\begin{equation}
+  p\left( \dGW \mid \dEM, H_0 \right) \propto \sum_i \frac{w_i}{\sqrt{2\pi} H_0^3 \sigma_k} \exp\left[ - \frac{\left( H_0 \mu_k - c z_i \right)^2}{2 H_0^2 \sigma_k^2} \right].
+\end{equation}
+%
+Note that the evidence term $\mathcal{Z}_i$ has canceled the $z_i^2$ appearing
+from the prior we placed on the true redshift of each galaxy.  There are so many
+galaxies that the sum over galaxies becomes integral, leading to
+%
+\begin{equation}
+  p\left( \dGW \mid \dEM, H_0 \right) \propto \int \dd z \, \frac{p(z)}{\sqrt{2\pi} H_0^3 \sigma_k} \exp\left[ - \frac{\left( H_0 \mu_k - c z \right)^2}{2 H_0^2 \sigma_k^2} \right] \propto \mathrm{const}.
+\end{equation}
+%
+In other words, if the distribution of galaxies is uniform across the \ac{GW}
+localization region then the measurement is uninformative.
+
+
+\newpage
+\printbibliography
+
+\end{document}
